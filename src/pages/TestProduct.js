@@ -25,6 +25,8 @@ const TestProduct = ({ isUser }) => {
   const [widthError, setWidthError] = useState(false);
   const [heightError, setheightError] = useState(false);
   // const
+const [SubOption , setSubOption] = useState(null)
+
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   useEffect(() => {
@@ -113,6 +115,8 @@ const TestProduct = ({ isUser }) => {
     month: "long",
     day: "numeric",
   };
+
+
 
   return (
     <Helmet title={productArr?.meta_title}>
@@ -325,12 +329,16 @@ const TestProduct = ({ isUser }) => {
                                             <div className="row cardCenter">
                                               <div
                                                 className="col-md-12"
-                                                onClick={() => {
+                                              >
+                                               <div 
+                                                 onClick={() => {
+                                                  setSubOption(e)
                                                   const Option_data = {
                                                     section_id: parseFloat(
                                                       e.section_id
                                                     ),
                                                     Option_id: parseFloat(e.id),
+                                                    
                                                   };
                                                   if (
                                                     selected_op.indexOf(
@@ -349,7 +357,7 @@ const TestProduct = ({ isUser }) => {
                                                       Option_data,
                                                     ];
                                                     setSelected(New_selected);
-
+                                                    
                                                     if (All_ids.length <= 0) {
                                                       dispatch(
                                                         getProductSummery(
@@ -366,8 +374,8 @@ const TestProduct = ({ isUser }) => {
                                                     }
                                                   }
                                                 }}
-                                              >
-                                                {e.image ? (
+                                               >
+                                               {e.image ? (
                                                   <>
                                                     <div
                                                       className="Card_Image"
@@ -386,8 +394,40 @@ const TestProduct = ({ isUser }) => {
                                                         />
                                                       </div>
                                                       <h3>{e.name}</h3>
-                                                      <div className="row">
-                                                      {e.childrens.map((item)=>{
+                                                    
+                                                    </div>
+                                                    <p>{e.description}</p>
+                                                  </>
+                                                ) : (
+                                                  <>
+                                                    <div
+                                                      className="Chose text-center "
+                                                      style={{
+                                                        borderColor: All_ids.includes(
+                                                          e.id
+                                                        )
+                                                          ? "#0a3565"
+                                                          : "#d1d1d1",
+                                                      }}
+                                                    >
+                                                      {e.name}
+                                                    </div>
+                                                    <p>{e.description}</p>
+                                                  </>
+                                                )}
+                                               </div>
+                                               
+                                              </div>
+                                            </div>
+                                         
+                                          </div>
+                                          
+                                        );
+                                      })}
+                                      <div className="row">
+                                                   {SubOption ? 
+                                                    <div className="row">
+                                                      {SubOption.childrens.map((item)=>{
                                               return (
                                                 <div key={item.id} className="col-6">
                                                   {/* -------------------------------------- */}
@@ -409,7 +449,7 @@ const TestProduct = ({ isUser }) => {
                                                         parseFloat(
                                                           op.section_id
                                                         ) !==
-                                                        parseFloat(e.section_id)
+                                                        parseFloat(item.section_id)
                                                     );
                                                     const New_selected = [
                                                       ...old_selected,
@@ -480,33 +520,8 @@ const TestProduct = ({ isUser }) => {
                                               )
                                             })}
                                                       </div>
-                                                    </div>
-                                                    <p>{e.description}</p>
-                                                  </>
-                                                ) : (
-                                                  <>
-                                                    <div
-                                                      className="Chose text-center "
-                                                      style={{
-                                                        borderColor: All_ids.includes(
-                                                          e.id
-                                                        )
-                                                          ? "#0a3565"
-                                                          : "#d1d1d1",
-                                                      }}
-                                                    >
-                                                      {e.name}
-                                                    </div>
-                                                    <p>{e.description}</p>
-                                                  </>
-                                                )}
-                                              </div>
-                                            </div>
-                                         
-                                          </div>
-                                          
-                                        );
-                                      })}
+                                                   : null}
+                                                      </div>
 
                                     </div>
                                   </div>
