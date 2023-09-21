@@ -676,8 +676,8 @@ const [FinalOption , setFinalOption] = useState(null)
                       <h2 className="mb-3">Order Summary</h2>
                       <div>
                         <div className="d-flex">
-                            <h5>{summeryArr.options[0].section}</h5>
-                            <span> {SubOption.name}</span>
+                            <h5>{summeryArr.options.length > 0 ? summeryArr.options[0].section : null}</h5>
+                            <span> {SubOption ? SubOption.name : null }</span>
                           </div>
                           <div className="d-flex">
                             <h5>{TitleOfSubOption}</h5>
