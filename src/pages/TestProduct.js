@@ -26,7 +26,13 @@ const TestProduct = ({ isUser }) => {
   const [heightError, setheightError] = useState(false);
   // const
 const [SubOption , setSubOption] = useState(null)
+const [TitleOfSubOption , setTitleOfSubOption] = useState("")
+const [TxtOfSubOption , setTxtOfSubOption] = useState("")
+
 const [FinalOption , setFinalOption] = useState(null)
+
+{console.log(summeryArr)}
+
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   useEffect(() => {
@@ -433,45 +439,8 @@ const [FinalOption , setFinalOption] = useState(null)
                                               <div style={{textAlign : 'center'}}
                                                 onClick={() => {
                                                   setFinalOption(item.childrens)
-                                                  const Option_data = {
-                                                    section_id: parseFloat(
-                                                      item.section_id
-                                                    ),
-                                                    Option_id: parseFloat(item.id),
-                                                  };
-                                                  if (
-                                                    selected_op.indexOf(
-                                                      Option_data
-                                                    ) === -1
-                                                  ) {
-                                                    const old_selected = selected_op.filter(
-                                                      (op) =>
-                                                        parseFloat(
-                                                          op.section_id
-                                                        ) !==
-                                                        parseFloat(item.section_id)
-                                                    );
-                                                    const New_selected = [
-                                                      Option_data,
-                                                    ];
-                                                    setSelected(New_selected);
-
-                                                    if (All_ids.length <= 0) {
-                                                      dispatch(
-                                                        getProductSummery(
-                                                          `?product_id=${id2}&options[0]=${parseFloat(
-                                                            item.id
-                                                          )}&width=${width}&height=${height}&quantity=${quantity}`
-                                                        )
-                                                      );
-                                                    } else {
-                                                      // SendData();
-                                                      SendDataOption(
-                                                        New_selected
-
-                                                      );
-                                                    }
-                                                  }
+                                                  setTitleOfSubOption(item.name)
+                                               
                                                 }}
                                               >
                                                 {item.image ? (
@@ -533,6 +502,7 @@ const [FinalOption , setFinalOption] = useState(null)
                                                   {/* -------------------------------------- */}
                                               <div style={{textAlign : 'center'}}
                                                 onClick={() => {
+                                                  setTxtOfSubOption(item.name)
                                                   const Option_data = {
                                                     section_id: parseFloat(
                                                       item.section_id
@@ -552,12 +522,11 @@ const [FinalOption , setFinalOption] = useState(null)
                                                         parseFloat(item.section_id)
                                                     );
                                                     const New_selected = [
-                                                      
+                                                      ...old_selected,
                                                       Option_data,
                                                       
                                                     ];
-                                                    setSelected(New_selected);
-
+                                                    
                                                     if (All_ids.length <= 0) {
                                                       dispatch(
                                                         getProductSummery(
@@ -705,14 +674,17 @@ const [FinalOption , setFinalOption] = useState(null)
                   {summeryArr && (
                     <div className="CardTest ">
                       <h2 className="mb-3">Order Summary</h2>
-                      {summeryArr.options.map((ele) => {
-                        return (
-                          <div className="d-flex  " key={ele.name}>
-                            <h5>{ele.section}</h5>
+                      <div>
+                        <div className="d-flex">
+                            <h5>{summeryArr.options[0].section}</h5>
                             <span> {SubOption.name}</span>
                           </div>
-                        );
-                      })}
+                          <div className="d-flex">
+                            <h5>{TitleOfSubOption}</h5>
+                            <span>{TxtOfSubOption}</span>
+                          </div>
+                        </div>
+                        
                       <div className="d-flex ">
                         <h5>Quantity:</h5>
                         <span> {summeryArr.quantity}</span>
