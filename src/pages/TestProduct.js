@@ -30,9 +30,6 @@ const [TitleOfSubOption , setTitleOfSubOption] = useState("")
 const [TxtOfSubOption , setTxtOfSubOption] = useState("")
 
 const [FinalOption , setFinalOption] = useState(null)
-
-{console.log(summeryArr)}
-
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   useEffect(() => {
@@ -337,6 +334,7 @@ const [FinalOption , setFinalOption] = useState(null)
                                               >
                                                <div 
                                                  onClick={() => {
+                                                  console.log(e.childrens)
                                                   setSubOption(e)
                                                   const Option_data = {
                                                     section_id: parseFloat(
@@ -434,69 +432,12 @@ const [FinalOption , setFinalOption] = useState(null)
                                                     <div className="row">
                                                       {SubOption.childrens.map((item)=>{
                                               return (
-                                                <div key={item.id} className="col-6">
+                                                <div key={item.id} className="col-12">
                                                   {/* -------------------------------------- */}
-                                              <div style={{textAlign : 'center'}}
-                                                onClick={() => {
-                                                  setFinalOption(item.childrens)
-                                                  setTitleOfSubOption(item.name)
-                                               
-                                                }}
-                                              >
-                                                {item.image ? (
-                                                  <>
-                                                    <div
-                                                      className="Card_Image"
-                                                      style={{
-                                                        borderColor: All_ids.includes(
-                                                          item.id
-                                                        )
-                                                          ? "#0a3565"
-                                                          : "#d1d1d1",
-                                                      }}
-                                                      
-                                                    >
-                                                        <img
-                                                          src={item.image}
-                                                          alt=""
-                                                          width={100} height={100}
-                                                        />
-                                                      </div>
-                                                      
-                                                      <h3>{item.name}</h3>
-                                                  
-                                                  </>
-                                                ) : (
-                                                  <>
-                                                    <div
-                                                      className="Chose text-center "
-                                                      style={{
-                                                        borderColor: All_ids.includes(
-                                                          item.id
-                                                        )
-                                                          ? "#0a3565"
-                                                          : "#d1d1d1",
-                                                      }}
-                                                    >
-                                                      {item.name}
-                                                    </div>
-                                                    <p>{item.description}</p>
-                                                  </>
-                                                )}
-                                              </div>
-                                                  {/* -------------------------------------- */}
-                                                  
-                                                </div>
-                                              )
-                                            })}
-                                                      </div>
-                                                   : null}
-                                     </div>
-               {/* ********************************************************************************************   */}
-               <div className="row">
-                                                   {FinalOption ? 
-                                                    <div className="row">
-                                                      {FinalOption.map((item)=>{
+                                              <div>
+                                                 <label htmlFor="Height ">{item.name}</label>
+                                                <div className="row">
+                                                {item.childrens.map((item)=>{
                                               return (
                                                 <div key={item.id} className="col-6">
                                                   {/* -------------------------------------- */}
@@ -581,7 +522,7 @@ const [FinalOption , setFinalOption] = useState(null)
                                                     >
                                                       {item.name}
                                                     </div>
-                                                    <p>{item.description}</p>
+                                                    <p style={{textAlign : 'left' , color : 'red' , marginLeft : '15px'}}>{item.description}</p>
                                                   </>
                                                 )}
                                               </div>
@@ -590,9 +531,17 @@ const [FinalOption , setFinalOption] = useState(null)
                                                 </div>
                                               )
                                             })}
+                                                </div>
+                                              </div>
+                                                  
+                                                </div>
+                                              )
+                                            })}
                                                       </div>
-                                                   : null}
+                                          : null}
                                      </div>
+               {/* ********************************************************************************************   */}
+            
                {/* ********************************************************************************************   */}
 
                                     </div>
@@ -677,11 +626,7 @@ const [FinalOption , setFinalOption] = useState(null)
                       <div>
                         <div className="d-flex">
                             <h5>{summeryArr.options.length > 0 ? summeryArr.options[0].section : null}</h5>
-                            <span> {SubOption ? SubOption.name : null }</span>
-                          </div>
-                          <div className="d-flex">
-                            <h5>{TitleOfSubOption}</h5>
-                            <span>{TxtOfSubOption}</span>
+                            <span> {SubOption ? SubOption.name : null } {TxtOfSubOption.length > 0 ? " - " +  TxtOfSubOption : null}</span>
                           </div>
                         </div>
                         
