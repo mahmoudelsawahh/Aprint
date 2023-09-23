@@ -28,7 +28,7 @@ const TestProduct = ({ isUser }) => {
 const [SubOption , setSubOption] = useState(null)
 const [TitleOfSubOption , setTitleOfSubOption] = useState("")
 const [TxtOfSubOption , setTxtOfSubOption] = useState("")
-
+const [GetOptionName , setGetOptionName] = useState(null)
 const [FinalOption , setFinalOption] = useState(null)
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
@@ -53,6 +53,7 @@ const [FinalOption , setFinalOption] = useState(null)
     {
       section_id: 0,
       Option_id: 0,
+      parent_id : 0
     },
   ]);
 
@@ -120,7 +121,12 @@ const [FinalOption , setFinalOption] = useState(null)
   };
 
 
-
+ useEffect(()=>{
+   if(summeryArr){
+    const data = (summeryArr.options.slice(1 , summeryArr.options.length ))
+     setGetOptionName(data)
+  }
+ },[summeryArr])
   return (
     <Helmet title={productArr?.meta_title}>
       <meta name="description" content={productArr?.meta_description} />
@@ -334,7 +340,6 @@ const [FinalOption , setFinalOption] = useState(null)
                                               >
                                                <div 
                                                  onClick={() => {
-                                                  console.log(e.childrens)
                                                   setSubOption(e)
                                                   const Option_data = {
                                                     section_id: parseFloat(
@@ -355,6 +360,7 @@ const [FinalOption , setFinalOption] = useState(null)
                                                         ) !==
                                                         parseFloat(e.section_id)
                                                     );
+
                                                     const New_selected = [
                                                       ...old_selected,
                                                       Option_data,
@@ -449,6 +455,7 @@ const [FinalOption , setFinalOption] = useState(null)
                                                       item.section_id
                                                     ),
                                                     Option_id: parseFloat(item.id),
+                                                    parent_id : parseFloat(item.parent_id)
                                                   };
                                                   if (
                                                     selected_op.indexOf(
@@ -458,16 +465,15 @@ const [FinalOption , setFinalOption] = useState(null)
                                                     const old_selected = selected_op.filter(
                                                       (op) =>
                                                         parseFloat(
-                                                          op.section_id
+                                                          op.parent_id
                                                         ) !==
-                                                        parseFloat(item.section_id)
+                                                        parseFloat(item.parent_id)
                                                     );
                                                     const New_selected = [
                                                       ...old_selected,
                                                       Option_data,
-                                                      
                                                     ];
-                                                    
+                                                      setSelected(New_selected);
                                                     if (All_ids.length <= 0) {
                                                       dispatch(
                                                         getProductSummery(
@@ -620,13 +626,20 @@ const [FinalOption , setFinalOption] = useState(null)
                 )}
 
                 <div className="order_now">
-                  {summeryArr && (
+                  {summeryArr  && (
                     <div className="CardTest ">
                       <h2 className="mb-3">Order Summary</h2>
                       <div>
                         <div className="d-flex">
-                            <h5>{summeryArr.options.length > 0 ? summeryArr.options[0].section : null}</h5>
-                            <span> {SubOption ? SubOption.name : null } {TxtOfSubOption.length > 0 ? " - " +  TxtOfSubOption : null}</span>
+                            <h5>{summeryArr.options.length > 0 ? summeryArr.options[0].section + " : " : null} </h5>
+                             <span>{ summeryArr.options[0].name }</span>
+                            {
+                              GetOptionName ? GetOptionName.map((item)=>{
+                                return (
+                                  <span>{` - ${item.name} `}</span>
+                                )
+                              }) : null
+                             }
                           </div>
                         </div>
                         
