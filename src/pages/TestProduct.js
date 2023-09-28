@@ -26,8 +26,15 @@ const TestProduct = ({ isUser }) => {
   const [heightError, setheightError] = useState(false);
   // const
 const [SubOption , setSubOption] = useState(null)
+
+const [SubOptionTwo , setSubOptionTwo] = useState(null)
+
+
+
 const [TitleOfSubOption , setTitleOfSubOption] = useState("")
 const [TxtOfSubOption , setTxtOfSubOption] = useState("")
+const [TxtOfSubOptionTwo , setTxtOfSubOptionTwo] = useState("")
+
 const [GetOptionName , setGetOptionName] = useState(null)
 const [FinalOption , setFinalOption] = useState(null)
   const [width, setWidth] = useState("");
@@ -57,11 +64,24 @@ const [FinalOption , setFinalOption] = useState(null)
     },
   ]);
 
+  const [selected_op_New, setNewSelected] = useState([
+    {
+      section_id: 0,
+      Option_id: 0,
+      parent_id : 0
+    },
+  ]);
+
+
   const [quantity, setQuantity] = useState(1);
   const [finishnotes, setFinishNotes] = useState("");
-  const All_ids = selected_op
-    .filter((ele) => ele.Option_id !== 0)
-    .map((ele) => ele.Option_id);
+
+
+  const All_ids =   selected_op
+  .filter((ele) => ele.Option_id !== 0)
+  .map((ele) => ele.Option_id);
+
+
 
   const SendDataOption = (OP_data) => {
     const Last_send_Ids = OP_data.filter((ele) => ele.Option_id !== 0).map(
@@ -449,6 +469,7 @@ const [FinalOption , setFinalOption] = useState(null)
                                                   {/* -------------------------------------- */}
                                               <div style={{textAlign : 'center'}}
                                                 onClick={() => {
+                                                  setSubOptionTwo(item)
                                                   setTxtOfSubOption(item.name)
                                                   const Option_data = {
                                                     section_id: parseFloat(
@@ -531,6 +552,115 @@ const [FinalOption , setFinalOption] = useState(null)
                                                     <p style={{textAlign : 'left' , color : 'red' , marginLeft : '15px'}}>{item.description}</p>
                                                   </>
                                                 )}
+
+
+                                              {/* ***************************************************************** */}
+                                              <div className="row">
+                                                   {SubOptionTwo && SubOptionTwo.id === item.id ? 
+                                                    <div className="row">
+                                                {SubOptionTwo.childrens.map((element)=>{
+                                              return (
+                                                <div key={element.id} className="col-6">
+                                                  {/* -------------------------------------- */}
+                                              <div style={{textAlign : 'center'}}
+                                                onClick={() => {
+                                                  setTxtOfSubOptionTwo(element.name)
+                                                  const Option_data = {
+                                                    section_id: parseFloat(
+                                                      element.section_id
+                                                    ),
+                                                    Option_id: parseFloat(element.id),
+                                                    parent_id : parseFloat(element.parent_id)
+                                                  };
+                                                  if (
+                                                    selected_op.indexOf(
+                                                      Option_data
+                                                    ) === -1
+                                                  ) {
+                                                    const old_selected = selected_op.filter(
+                                                      (op) =>
+                                                        parseFloat(
+                                                          op.parent_id
+                                                        ) !==
+                                                        parseFloat(element.parent_id)
+                                                    );
+                                                    const New_selected = [
+                                                      ...old_selected,
+                                                      Option_data,
+                                                    ];
+                                                   
+                                                   setTimeout(()=>{
+                                                    setSelected(New_selected);
+                                                    if (All_ids.length <= 0) {
+                                                      dispatch(
+                                                        getProductSummery(
+                                                          `?product_id=${id2}&options[0]=${parseFloat(
+                                                            element.id
+                                                          )}&width=${width}&height=${height}&quantity=${quantity}`
+                                                        )
+                                                      );
+                                                    } else {
+                                                      // SendData();
+                                                      SendDataOption(
+                                                        New_selected
+                                                      );
+                                                    }
+                                                   },[])
+                                                  }
+                                                }}
+                                              >
+                                                {element.image ? (
+                                                  <>
+                                                    <div
+                                                      className="Card_Image"
+                                                      style={{
+                                                        borderColor: All_ids.includes(
+                                                          element.id
+                                                        )
+                                                          ? "#0a3565"
+                                                          : "#d1d1d1",
+                                                      }}
+                                                      
+                                                    >
+                                                        <img
+                                                          src={element.image}
+                                                          alt=""
+                                                          width={100} height={100}
+                                                        />
+                                                      </div>
+                                                      
+                                                      <h3>{element.name}</h3>
+                                                  
+                                                  </>
+                                                ) : (
+                                                  <>
+                                                    <div
+                                                      className="Chose text-center "
+                                                      style={{
+                                                        borderColor: All_ids.includes(
+                                                          element.id
+                                                        )
+                                                          ? "#0a3565"
+                                                          : "#d1d1d1",
+                                                      }}
+                                                    >
+                                                      {element.name}
+                                                    </div>
+                                                    <p style={{textAlign : 'left' , color : 'red' , marginLeft : '15px'}}>{element.description}</p>
+                                                  </>
+                                                )}
+                                              </div>
+                                                  {/* -------------------------------------- */}
+                                                  
+                                                </div>
+                                              )
+                                            })}
+                                                </div>
+                                          : null}
+                                     </div>
+                                                  
+                                              {/* ***************************************************************** */}
+
                                               </div>
                                                   {/* -------------------------------------- */}
                                                   
@@ -546,8 +676,10 @@ const [FinalOption , setFinalOption] = useState(null)
                                                       </div>
                                           : null}
                                      </div>
+                                     
                {/* ********************************************************************************************   */}
-            
+             
+                                    
                {/* ********************************************************************************************   */}
 
                                     </div>
@@ -630,7 +762,7 @@ const [FinalOption , setFinalOption] = useState(null)
                     <div className="CardTest ">
                       <h2 className="mb-3">Order Summary</h2>
                       <div>
-                        <div className="d-flex">
+                        <div className="d-flex flex-wrap">
                             <h5>{summeryArr.options.length > 0 ? summeryArr.options[0].section + " : " : null} </h5>
                              <span>{ summeryArr.options.length > 0 ? summeryArr.options[0].name : null }</span>
                             {
@@ -643,7 +775,7 @@ const [FinalOption , setFinalOption] = useState(null)
                           </div>
                         </div>
                         
-                      <div className="d-flex ">
+                      <div className="d-flex">
                         <h5>Quantity:</h5>
                         <span> {summeryArr.quantity}</span>
                       </div>
@@ -653,7 +785,7 @@ const [FinalOption , setFinalOption] = useState(null)
                           {tomorrow.toLocaleDateString("en-US", options)}
                         </span>
                       </div>
-                      <div className="d-flex font_grow_div ">
+                      <div className="d-flex font_grow_div " >
                         <h5 className="font_grow">Total:</h5>
                         <span className="span_active">
                           {" "}
