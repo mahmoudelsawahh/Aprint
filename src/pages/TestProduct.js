@@ -25,18 +25,16 @@ const TestProduct = ({ isUser }) => {
   const [widthError, setWidthError] = useState(false);
   const [heightError, setheightError] = useState(false);
   // const
-const [SubOption , setSubOption] = useState(null)
+  const [SubOption, setSubOption] = useState(null);
 
-const [SubOptionTwo , setSubOptionTwo] = useState(null)
+  const [SubOptionTwo, setSubOptionTwo] = useState(null);
 
+  const [TitleOfSubOption, setTitleOfSubOption] = useState("");
+  const [TxtOfSubOption, setTxtOfSubOption] = useState("");
+  const [TxtOfSubOptionTwo, setTxtOfSubOptionTwo] = useState("");
 
-
-const [TitleOfSubOption , setTitleOfSubOption] = useState("")
-const [TxtOfSubOption , setTxtOfSubOption] = useState("")
-const [TxtOfSubOptionTwo , setTxtOfSubOptionTwo] = useState("")
-
-const [GetOptionName , setGetOptionName] = useState(null)
-const [FinalOption , setFinalOption] = useState(null)
+  const [GetOptionName, setGetOptionName] = useState(null);
+  const [FinalOption, setFinalOption] = useState(null);
   const [width, setWidth] = useState("");
   const [height, setHeight] = useState("");
   useEffect(() => {
@@ -60,7 +58,7 @@ const [FinalOption , setFinalOption] = useState(null)
     {
       section_id: 0,
       Option_id: 0,
-      parent_id : 0
+      parent_id: 0,
     },
   ]);
 
@@ -68,20 +66,16 @@ const [FinalOption , setFinalOption] = useState(null)
     {
       section_id: 0,
       Option_id: 0,
-      parent_id : 0
+      parent_id: 0,
     },
   ]);
-
 
   const [quantity, setQuantity] = useState(1);
   const [finishnotes, setFinishNotes] = useState("");
 
-
-  const All_ids =   selected_op
-  .filter((ele) => ele.Option_id !== 0)
-  .map((ele) => ele.Option_id);
-
-
+  const All_ids = selected_op
+    .filter((ele) => ele.Option_id !== 0)
+    .map((ele) => ele.Option_id);
 
   const SendDataOption = (OP_data) => {
     const Last_send_Ids = OP_data.filter((ele) => ele.Option_id !== 0).map(
@@ -140,13 +134,12 @@ const [FinalOption , setFinalOption] = useState(null)
     day: "numeric",
   };
 
-
- useEffect(()=>{
-   if(summeryArr){
-    const data = (summeryArr.options.slice(1 , summeryArr.options.length ))
-     setGetOptionName(data)
-  }
- },[summeryArr])
+  useEffect(() => {
+    if (summeryArr) {
+      const data = summeryArr.options.slice(1, summeryArr.options.length);
+      setGetOptionName(data);
+    }
+  }, [summeryArr]);
   return (
     <Helmet title={productArr?.meta_title}>
       <meta name="description" content={productArr?.meta_description} />
@@ -341,8 +334,8 @@ const [FinalOption , setFinalOption] = useState(null)
                       )}
                       <div className="col-12">
                         <div className="row">
-                    {/* -------------------------------------------------------------------------------------- */}
-                    {productArr?.sections?.map((ele) => {
+                          {/* -------------------------------------------------------------------------------------- */}
+                          {productArr?.sections?.map((ele) => {
                             return (
                               <div className="col-12" key={ele.id}>
                                 <div className="row">
@@ -352,348 +345,476 @@ const [FinalOption , setFinalOption] = useState(null)
                                   <div className="col-12">
                                     <div className="row">
                                       {ele.options?.map((e) => {
-                                       return (
+                                        return (
                                           <div className="col-md-6" key={e.id}>
                                             <div className="row cardCenter">
-                                              <div
-                                                className="col-md-12"
-                                              >
-                                               <div 
-                                                 onClick={() => {
-                                                  setSubOption(e)
-                                                  const Option_data = {
-                                                    section_id: parseFloat(
-                                                      e.section_id
-                                                    ),
-                                                    Option_id: parseFloat(e.id),
-                                                    
-                                                  };
-                                                  if (
-                                                    selected_op.indexOf(
-                                                      Option_data
-                                                    ) === -1
-                                                  ) {
-                                                    const old_selected = selected_op.filter(
-                                                      (op) =>
-                                                        parseFloat(
-                                                          op.section_id
-                                                        ) !==
-                                                        parseFloat(e.section_id)
-                                                    );
+                                              <div className="col-md-12">
+                                                <div
+                                                  onClick={() => {
+                                                    setSubOption(e);
+                                                    const Option_data = {
+                                                      section_id: parseFloat(
+                                                        e.section_id
+                                                      ),
+                                                      Option_id: parseFloat(
+                                                        e.id
+                                                      ),
+                                                    };
+                                                    if (
+                                                      selected_op.indexOf(
+                                                        Option_data
+                                                      ) === -1
+                                                    ) {
+                                                      const old_selected =
+                                                        selected_op.filter(
+                                                          (op) =>
+                                                            parseFloat(
+                                                              op.section_id
+                                                            ) !==
+                                                            parseFloat(
+                                                              e.section_id
+                                                            )
+                                                        );
 
-                                                    const New_selected = [
-                                                      ...old_selected,
-                                                      Option_data,
-                                                    ];
-                                                    setSelected(New_selected);
-                                                    
-                                                    if (All_ids.length <= 0) {
-                                                      dispatch(
-                                                        getProductSummery(
-                                                          `?product_id=${id2}&options[0]=${parseFloat(
-                                                            e.id
-                                                          )}&width=${width}&height=${height}&quantity=${quantity}`
-                                                        )
-                                                      );
-                                                    } else {
-                                                      // SendData();
-                                                      SendDataOption(
-                                                        New_selected
-                                                      );
+                                                      const New_selected = [
+                                                        ...old_selected,
+                                                        Option_data,
+                                                      ];
+                                                      setSelected(New_selected);
+
+                                                      if (All_ids.length <= 0) {
+                                                        dispatch(
+                                                          getProductSummery(
+                                                            `?product_id=${id2}&options[0]=${parseFloat(
+                                                              e.id
+                                                            )}&width=${width}&height=${height}&quantity=${quantity}`
+                                                          )
+                                                        );
+                                                      } else {
+                                                        // SendData();
+                                                        SendDataOption(
+                                                          New_selected
+                                                        );
+                                                      }
                                                     }
-                                                  }
-                                                }}
-                                               >
-                                               {e.image ? (
-                                                  <>
-                                                    <div
-                                                      className="Card_Image"
-                                                      style={{
-                                                        borderColor: All_ids.includes(
-                                                          e.id
-                                                        )
-                                                          ? "#0a3565"
-                                                          : "#d1d1d1",
-                                                      }}
-                                                    >
-                                                      <div className="ImageTesetCon">
-                                                        <img
-                                                          src={e.image}
-                                                          alt=""
-                                                        />
+                                                  }}
+                                                >
+                                                  {e.image ? (
+                                                    <>
+                                                      <div
+                                                        className="Card_Image"
+                                                        style={{
+                                                          borderColor:
+                                                            All_ids.includes(
+                                                              e.id
+                                                            )
+                                                              ? "#0a3565"
+                                                              : "#d1d1d1",
+                                                        }}
+                                                      >
+                                                        <div className="ImageTesetCon">
+                                                          <img
+                                                            src={e.image}
+                                                            alt=""
+                                                          />
+                                                        </div>
+                                                        <h3>{e.name}</h3>
                                                       </div>
-                                                      <h3>{e.name}</h3>
-                                                    
-                                                    </div>
-                                                    <p>{e.description}</p>
-                                                  </>
-                                                ) : (
-                                                  <>
-                                                    <div
-                                                      className="Chose text-center "
-                                                      style={{
-                                                        borderColor: All_ids.includes(
-                                                          e.id
-                                                        )
-                                                          ? "#0a3565"
-                                                          : "#d1d1d1",
-                                                      }}
-                                                    >
-                                                      {e.name}
-                                                    </div>
-                                                    <p>{e.description}</p>
-                                                  </>
-                                                )}
-                                               </div>
-                                               
+                                                      <p>{e.description}</p>
+                                                    </>
+                                                  ) : (
+                                                    <>
+                                                      <div
+                                                        className="Chose text-center "
+                                                        style={{
+                                                          borderColor:
+                                                            All_ids.includes(
+                                                              e.id
+                                                            )
+                                                              ? "#0a3565"
+                                                              : "#d1d1d1",
+                                                        }}
+                                                      >
+                                                        {e.name}
+                                                      </div>
+                                                      <p>{e.description}</p>
+                                                    </>
+                                                  )}
+                                                   {console.log(SubOption)}
+                                                  {SubOption ?
+                                                    e.id == SubOption.id ? 
+                                                    <div className="row">
+                                                    {SubOption ? (
+                                                      <div className="row">
+                                                        {SubOption.childrens.map(
+                                                          (item) => {
+                                                            return (
+                                                              <div
+                                                                key={item.id}
+                                                                className="col-12"
+                                                              >
+                                                                {/* -------------------------------------- */}
+                                                                <div>
+                                                                  <label htmlFor="Height ">
+                                                                    {item.name}
+                                                                  </label>
+                                                                  <div className="row">
+                                                                    {item.childrens.map(
+                                                                      (
+                                                                        item
+                                                                      ) => {
+                                                                        return (
+                                                                          <div
+                                                                            key={
+                                                                              item.id
+                                                                            }
+                                                                            className="col-6"
+                                                                          >
+                                                                            {/* -------------------------------------- */}
+                                                                            <div
+                                                                              style={{
+                                                                                textAlign:
+                                                                                  "center",
+                                                                              }}
+                                                                              onClick={() => {
+                                                                                setSubOptionTwo(
+                                                                                  item
+                                                                                );
+                                                                                setTxtOfSubOption(
+                                                                                  item.name
+                                                                                );
+                                                                                const Option_data =
+                                                                                  {
+                                                                                    section_id:
+                                                                                      parseFloat(
+                                                                                        item.section_id
+                                                                                      ),
+                                                                                    Option_id:
+                                                                                      parseFloat(
+                                                                                        item.id
+                                                                                      ),
+                                                                                    parent_id:
+                                                                                      parseFloat(
+                                                                                        item.parent_id
+                                                                                      ),
+                                                                                  };
+                                                                                if (
+                                                                                  selected_op.indexOf(
+                                                                                    Option_data
+                                                                                  ) ===
+                                                                                  -1
+                                                                                ) {
+                                                                                  const old_selected =
+                                                                                    selected_op.filter(
+                                                                                      (
+                                                                                        op
+                                                                                      ) =>
+                                                                                        parseFloat(
+                                                                                          op.parent_id
+                                                                                        ) !==
+                                                                                        parseFloat(
+                                                                                          item.parent_id
+                                                                                        )
+                                                                                    );
+                                                                                  const New_selected =
+                                                                                    [
+                                                                                      ...old_selected,
+                                                                                      Option_data,
+                                                                                    ];
+                                                                                  setSelected(
+                                                                                    New_selected
+                                                                                  );
+                                                                                  if (
+                                                                                    All_ids.length <=
+                                                                                    0
+                                                                                  ) {
+                                                                                    dispatch(
+                                                                                      getProductSummery(
+                                                                                        `?product_id=${id2}&options[0]=${parseFloat(
+                                                                                          item.id
+                                                                                        )}&width=${width}&height=${height}&quantity=${quantity}`
+                                                                                      )
+                                                                                    );
+                                                                                  } else {
+                                                                                    // SendData();
+                                                                                    SendDataOption(
+                                                                                      New_selected
+                                                                                    );
+                                                                                  }
+                                                                                }
+                                                                              }}
+                                                                            >
+                                                                              {item.image ? (
+                                                                                <>
+                                                                                  <div
+                                                                                    className="Card_Image"
+                                                                                    style={{
+                                                                                      borderColor:
+                                                                                        All_ids.includes(
+                                                                                          item.id
+                                                                                        )
+                                                                                          ? "#0a3565"
+                                                                                          : "#d1d1d1",
+                                                                                    }}
+                                                                                  >
+                                                                                    <img
+                                                                                      src={
+                                                                                        item.image
+                                                                                      }
+                                                                                      alt=""
+                                                                                      width={
+                                                                                        100
+                                                                                      }
+                                                                                      height={
+                                                                                        100
+                                                                                      }
+                                                                                    />
+                                                                                  </div>
+
+                                                                                  <h3>
+                                                                                    {
+                                                                                      item.name
+                                                                                    }
+                                                                                  </h3>
+                                                                                </>
+                                                                              ) : (
+                                                                                <>
+                                                                                  <div
+                                                                                    className="Chose text-center "
+                                                                                    style={{
+                                                                                      borderColor:
+                                                                                        All_ids.includes(
+                                                                                          item.id
+                                                                                        )
+                                                                                          ? "#0a3565"
+                                                                                          : "#d1d1d1",
+                                                                                    }}
+                                                                                  >
+                                                                                    {
+                                                                                      item.name
+                                                                                    }
+                                                                                  </div>
+                                                                                  <p
+                                                                                    style={{
+                                                                                      textAlign:
+                                                                                        "left",
+                                                                                      color:
+                                                                                        "red",
+                                                                                      marginLeft:
+                                                                                        "15px",
+                                                                                    }}
+                                                                                  >
+                                                                                    {
+                                                                                      item.description
+                                                                                    }
+                                                                                  </p>
+                                                                                </>
+                                                                              )}
+
+                                                                              {/* ***************************************************************** */}
+                                                                              <div className="row">
+                                                                                {SubOptionTwo &&
+                                                                                SubOptionTwo.id ===
+                                                                                  item.id ? (
+                                                                                  <div className="row">
+                                                                                    {SubOptionTwo.childrens.map(
+                                                                                      (
+                                                                                        element
+                                                                                      ) => {
+                                                                                        return (
+                                                                                          <div
+                                                                                            key={
+                                                                                              element.id
+                                                                                            }
+                                                                                            className="col-6"
+                                                                                          >
+                                                                                            {/* -------------------------------------- */}
+                                                                                            <div
+                                                                                              style={{
+                                                                                                textAlign:
+                                                                                                  "center",
+                                                                                              }}
+                                                                                              onClick={() => {
+                                                                                                setTxtOfSubOptionTwo(
+                                                                                                  element.name
+                                                                                                );
+                                                                                                const Option_data =
+                                                                                                  {
+                                                                                                    section_id:
+                                                                                                      parseFloat(
+                                                                                                        element.section_id
+                                                                                                      ),
+                                                                                                    Option_id:
+                                                                                                      parseFloat(
+                                                                                                        element.id
+                                                                                                      ),
+                                                                                                    parent_id:
+                                                                                                      parseFloat(
+                                                                                                        element.parent_id
+                                                                                                      ),
+                                                                                                  };
+                                                                                                if (
+                                                                                                  selected_op.indexOf(
+                                                                                                    Option_data
+                                                                                                  ) ===
+                                                                                                  -1
+                                                                                                ) {
+                                                                                                  const old_selected =
+                                                                                                    selected_op.filter(
+                                                                                                      (
+                                                                                                        op
+                                                                                                      ) =>
+                                                                                                        parseFloat(
+                                                                                                          op.parent_id
+                                                                                                        ) !==
+                                                                                                        parseFloat(
+                                                                                                          element.parent_id
+                                                                                                        )
+                                                                                                    );
+                                                                                                  const New_selected =
+                                                                                                    [
+                                                                                                      ...old_selected,
+                                                                                                      Option_data,
+                                                                                                    ];
+
+                                                                                                  setTimeout(() => {
+                                                                                                    setSelected(
+                                                                                                      New_selected
+                                                                                                    );
+                                                                                                    if (
+                                                                                                      All_ids.length <=
+                                                                                                      0
+                                                                                                    ) {
+                                                                                                      dispatch(
+                                                                                                        getProductSummery(
+                                                                                                          `?product_id=${id2}&options[0]=${parseFloat(
+                                                                                                            element.id
+                                                                                                          )}&width=${width}&height=${height}&quantity=${quantity}`
+                                                                                                        )
+                                                                                                      );
+                                                                                                    } else {
+                                                                                                      // SendData();
+                                                                                                      SendDataOption(
+                                                                                                        New_selected
+                                                                                                      );
+                                                                                                    }
+                                                                                                  }, []);
+                                                                                                }
+                                                                                              }}
+                                                                                            >
+                                                                                              {element.image ? (
+                                                                                                <>
+                                                                                                  <div
+                                                                                                    className="Card_Image"
+                                                                                                    style={{
+                                                                                                      borderColor:
+                                                                                                        All_ids.includes(
+                                                                                                          element.id
+                                                                                                        )
+                                                                                                          ? "#0a3565"
+                                                                                                          : "#d1d1d1",
+                                                                                                    }}
+                                                                                                  >
+                                                                                                    <img
+                                                                                                      src={
+                                                                                                        element.image
+                                                                                                      }
+                                                                                                      alt=""
+                                                                                                      width={
+                                                                                                        100
+                                                                                                      }
+                                                                                                      height={
+                                                                                                        100
+                                                                                                      }
+                                                                                                    />
+                                                                                                  </div>
+
+                                                                                                  <h3>
+                                                                                                    {
+                                                                                                      element.name
+                                                                                                    }
+                                                                                                  </h3>
+                                                                                                </>
+                                                                                              ) : (
+                                                                                                <>
+                                                                                                  <div
+                                                                                                    className="Chose text-center "
+                                                                                                    style={{
+                                                                                                      borderColor:
+                                                                                                        All_ids.includes(
+                                                                                                          element.id
+                                                                                                        )
+                                                                                                          ? "#0a3565"
+                                                                                                          : "#d1d1d1",
+                                                                                                    }}
+                                                                                                  >
+                                                                                                    {
+                                                                                                      element.name
+                                                                                                    }
+                                                                                                  </div>
+                                                                                                  <p
+                                                                                                    style={{
+                                                                                                      textAlign:
+                                                                                                        "left",
+                                                                                                      color:
+                                                                                                        "red",
+                                                                                                      marginLeft:
+                                                                                                        "15px",
+                                                                                                    }}
+                                                                                                  >
+                                                                                                    {
+                                                                                                      element.description
+                                                                                                    }
+                                                                                                  </p>
+                                                                                                </>
+                                                                                              )}
+                                                                                            </div>
+                                                                                            {/* -------------------------------------- */}
+                                                                                          </div>
+                                                                                        );
+                                                                                      }
+                                                                                    )}
+                                                                                  </div>
+                                                                                ) : null}
+                                                                              </div>
+
+                                                                              {/* ***************************************************************** */}
+                                                                            </div>
+                                                                            {/* -------------------------------------- */}
+                                                                          </div>
+                                                                        );
+                                                                      }
+                                                                    )}
+                                                                  </div>
+                                                                </div>
+                                                              </div>
+                                                            );
+                                                          }
+                                                        )}
+                                                      </div>
+                                                    ) : null}
+                                                  </div>
+                                                   : null
+                                                   : null}
+                                                </div>
                                               </div>
                                             </div>
-                                         
                                           </div>
-                                          
                                         );
                                       })}
-                                
-                                     
-               {/* ********************************************************************************************   */}
-             
-                                    
-               {/* ********************************************************************************************   */}
 
+                                      {/* ********************************************************************************************   */}
+
+                                      {/* ********************************************************************************************   */}
                                     </div>
-                                    
                                   </div>
                                 </div>
                               </div>
                             );
                           })}
-                           <hr/>
-                          <div className="row">
-                                                   {SubOption ? 
-                                                    <div className="row">
-                                                      {SubOption.childrens.map((item)=>{
-                                              return (
-                                                <div key={item.id} className="col-12">
-                                                  {/* -------------------------------------- */}
-                                              <div>
-                                                 <label htmlFor="Height ">{item.name}</label>
-                                                <div className="row">
-                                                {item.childrens.map((item)=>{
-                                              return (
-                                                <div key={item.id} className="col-6">
-                                                  {/* -------------------------------------- */}
-                                              <div style={{textAlign : 'center'}}
-                                                onClick={() => {
-                                                  setSubOptionTwo(item)
-                                                  setTxtOfSubOption(item.name)
-                                                  const Option_data = {
-                                                    section_id: parseFloat(
-                                                      item.section_id
-                                                    ),
-                                                    Option_id: parseFloat(item.id),
-                                                    parent_id : parseFloat(item.parent_id)
-                                                  };
-                                                  if (
-                                                    selected_op.indexOf(
-                                                      Option_data
-                                                    ) === -1
-                                                  ) {
-                                                    const old_selected = selected_op.filter(
-                                                      (op) =>
-                                                        parseFloat(
-                                                          op.parent_id
-                                                        ) !==
-                                                        parseFloat(item.parent_id)
-                                                    );
-                                                    const New_selected = [
-                                                      ...old_selected,
-                                                      Option_data,
-                                                    ];
-                                                      setSelected(New_selected);
-                                                    if (All_ids.length <= 0) {
-                                                      dispatch(
-                                                        getProductSummery(
-                                                          `?product_id=${id2}&options[0]=${parseFloat(
-                                                            item.id
-                                                          )}&width=${width}&height=${height}&quantity=${quantity}`
-                                                        )
-                                                      );
-                                                    } else {
-                                                      // SendData();
-                                                      SendDataOption(
-                                                        New_selected
-                                                      );
-                                                    }
-                                                  }
-                                                }}
-                                              >
-                                                {item.image ? (
-                                                  <>
-                                                    <div
-                                                      className="Card_Image"
-                                                      style={{
-                                                        borderColor: All_ids.includes(
-                                                          item.id
-                                                        )
-                                                          ? "#0a3565"
-                                                          : "#d1d1d1",
-                                                      }}
-                                                      
-                                                    >
-                                                        <img
-                                                          src={item.image}
-                                                          alt=""
-                                                          width={100} height={100}
-                                                        />
-                                                      </div>
-                                                      
-                                                      <h3>{item.name}</h3>
-                                                  
-                                                  </>
-                                                ) : (
-                                                  <>
-                                                    <div
-                                                      className="Chose text-center "
-                                                      style={{
-                                                        borderColor: All_ids.includes(
-                                                          item.id
-                                                        )
-                                                          ? "#0a3565"
-                                                          : "#d1d1d1",
-                                                      }}
-                                                    >
-                                                      {item.name}
-                                                    </div>
-                                                    <p style={{textAlign : 'left' , color : 'red' , marginLeft : '15px'}}>{item.description}</p>
-                                                  </>
-                                                )}
-
-
-                                              {/* ***************************************************************** */}
-                                              <div className="row">
-                                                   {SubOptionTwo && SubOptionTwo.id === item.id ? 
-                                                    <div className="row">
-                                                {SubOptionTwo.childrens.map((element)=>{
-                                              return (
-                                                <div key={element.id} className="col-6">
-                                                  {/* -------------------------------------- */}
-                                              <div style={{textAlign : 'center'}}
-                                                onClick={() => {
-                                                  setTxtOfSubOptionTwo(element.name)
-                                                  const Option_data = {
-                                                    section_id: parseFloat(
-                                                      element.section_id
-                                                    ),
-                                                    Option_id: parseFloat(element.id),
-                                                    parent_id : parseFloat(element.parent_id)
-                                                  };
-                                                  if (
-                                                    selected_op.indexOf(
-                                                      Option_data
-                                                    ) === -1
-                                                  ) {
-                                                    const old_selected = selected_op.filter(
-                                                      (op) =>
-                                                        parseFloat(
-                                                          op.parent_id
-                                                        ) !==
-                                                        parseFloat(element.parent_id)
-                                                    );
-                                                    const New_selected = [
-                                                      ...old_selected,
-                                                      Option_data,
-                                                    ];
-                                                   
-                                                   setTimeout(()=>{
-                                                    setSelected(New_selected);
-                                                    if (All_ids.length <= 0) {
-                                                      dispatch(
-                                                        getProductSummery(
-                                                          `?product_id=${id2}&options[0]=${parseFloat(
-                                                            element.id
-                                                          )}&width=${width}&height=${height}&quantity=${quantity}`
-                                                        )
-                                                      );
-                                                    } else {
-                                                      // SendData();
-                                                      SendDataOption(
-                                                        New_selected
-                                                      );
-                                                    }
-                                                   },[])
-                                                  }
-                                                }}
-                                              >
-                                                {element.image ? (
-                                                  <>
-                                                    <div
-                                                      className="Card_Image"
-                                                      style={{
-                                                        borderColor: All_ids.includes(
-                                                          element.id
-                                                        )
-                                                          ? "#0a3565"
-                                                          : "#d1d1d1",
-                                                      }}
-                                                      
-                                                    >
-                                                        <img
-                                                          src={element.image}
-                                                          alt=""
-                                                          width={100} height={100}
-                                                        />
-                                                      </div>
-                                                      
-                                                      <h3>{element.name}</h3>
-                                                  
-                                                  </>
-                                                ) : (
-                                                  <>
-                                                    <div
-                                                      className="Chose text-center "
-                                                      style={{
-                                                        borderColor: All_ids.includes(
-                                                          element.id
-                                                        )
-                                                          ? "#0a3565"
-                                                          : "#d1d1d1",
-                                                      }}
-                                                    >
-                                                      {element.name}
-                                                    </div>
-                                                    <p style={{textAlign : 'left' , color : 'red' , marginLeft : '15px'}}>{element.description}</p>
-                                                  </>
-                                                )}
-                                              </div>
-                                                  {/* -------------------------------------- */}
-                                                  
-                                                </div>
-                                              )
-                                            })}
-                                                </div>
-                                          : null}
-                                     </div>
-                                                  
-                                              {/* ***************************************************************** */}
-
-                                              </div>
-                                                  {/* -------------------------------------- */}
-                                                  
-                                                </div>
-                                              )
-                                            })}
-                                                </div>
-                                              </div>
-                                                  
-                                                </div>
-                                              )
-                                            })}
-                                                      </div>
-                                          : null}
-                            </div>
                         </div>
                       </div>
-                    
+
                       <div className="col-md-12">
                         <div className="row cardCenter">
                           <div className="col-md-12">
@@ -761,23 +882,29 @@ const [FinalOption , setFinalOption] = useState(null)
                 )}
 
                 <div className="order_now">
-                  {summeryArr  && (
+                  {summeryArr && (
                     <div className="CardTest ">
                       <h2 className="mb-3">Order Summary</h2>
                       <div>
                         <div className="d-flex flex-wrap">
-                            <h5>{summeryArr.options.length > 0 ? summeryArr.options[0].section + " : " : null} </h5>
-                             <span>{ summeryArr.options.length > 0 ? summeryArr.options[0].name : null }</span>
-                            {
-                              GetOptionName ? GetOptionName.map((item)=>{
-                                return (
-                                  <span>{` - ${item.name} `}</span>
-                                )
-                              }) : null
-                             }
-                          </div>
+                          <h5>
+                            {summeryArr.options.length > 0
+                              ? summeryArr.options[0].section + " : "
+                              : null}{" "}
+                          </h5>
+                          <span>
+                            {summeryArr.options.length > 0
+                              ? summeryArr.options[0].name
+                              : null}
+                          </span>
+                          {GetOptionName
+                            ? GetOptionName.map((item) => {
+                                return <span>{` - ${item.name} `}</span>;
+                              })
+                            : null}
                         </div>
-                        
+                      </div>
+
                       <div className="d-flex">
                         <h5>Quantity:</h5>
                         <span> {summeryArr.quantity}</span>
@@ -788,7 +915,7 @@ const [FinalOption , setFinalOption] = useState(null)
                           {tomorrow.toLocaleDateString("en-US", options)}
                         </span>
                       </div>
-                      <div className="d-flex font_grow_div " >
+                      <div className="d-flex font_grow_div ">
                         <h5 className="font_grow">Total:</h5>
                         <span className="span_active">
                           {" "}
